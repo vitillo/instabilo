@@ -1,0 +1,5 @@
+env = Environment(CCFLAGS="-Wall -g -O2")
+test = env.Program("test/main.c", LIBS=["m"])
+library = env.SharedLibrary("instabilo", "src/instabilo.c", CPATH = "./include", LIBS=["dl"])
+check = env.Command('check', [test, library], 'LD_PRELOAD=libinstabilo.so LD_LIBRARY_PATH=. test/main')
+env.AlwaysBuild(check)
